@@ -4,21 +4,29 @@ import './SearchBar.css'
 class SearchBar extends Component {
   constructor(props) {
     super(props);
-    this.search = this.search.bind(this);
+    this.state = {
+            term: ''
+        }
     this.handleTermChange = this.handleTermChange.bind(this);
+    this.search = this.search.bind(this);
   }
-  search(term){
-    this.props.onSearch(this.state.term)
-  }
+
   handleTermChange(event) {
-    this.setState({ term: event.target.value });
-    console.log('handle term change')
+    this.setState({searchterm: event.target.value });
   }
+
+  search(){
+    this.props.onSearch(this.state.searchterm)
+  }
+
   render() {
       return (
           <div className="SearchBar">
-              <input placeholder="Enter A Song, Album, or Artist" conChange={this.handleTermChange} />
-              <a>SEARCH</a>
+              <input
+                  placeholder="Enter A Song, Album, or Artist"
+                  conChange={this.handleTermChange} />
+
+              <a onClick={this.search}>SEARCH</a>
           </div>
       );
   }

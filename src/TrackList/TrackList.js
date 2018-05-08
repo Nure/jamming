@@ -1,4 +1,5 @@
 
+
 import React, { Component } from 'react';
 import Track from '../Track/Track';
 
@@ -7,8 +8,8 @@ class TrackList extends Component {
         return (
             <div className="TrackList">
                 {
-                    this.props.track.map(track => {
-                        return
+                    this.props.tracks.map(track => {
+                        return (
                         <Track
                             key={this.props.id}
                             track={this.props.name}
@@ -17,7 +18,7 @@ class TrackList extends Component {
                             onAdd={this.props.onAdd}
                             onRemove={this.props.onRemove}
                             isRemoval={this.props.isRemoval}
-                        />
+                        />)
                     })}
                 }}
             </div>
@@ -25,4 +26,4 @@ class TrackList extends Component {
     }
 }
 
-export default Track;
+export default TrackList;

@@ -10,19 +10,9 @@ class App extends Component {
       super(props);
 
       this.state = {
-           searchResults : [
-             {name: "name"},
-             {artist: "artist"},
-             {album: "album"},
-             {id: "id"}
-           ],
-           playlistName : "JTList",
-           playlistTracks : [
-             {name: "name"},
-             {artist: "artist"},
-             {album: "album"},
-             {id: "id"}
-           ]
+           searchResults : [],
+           playlistName : "Favorite Metal",
+           playlistTracks : []
        };
        this.addTrack = this.addTrack.bind(this);
        this.removeTrack = this.removeTrack.bind(this);
@@ -34,33 +24,37 @@ class App extends Component {
   addTrack(track) {
     if (this.state.playlistTracks.find(savedTrack => savedTrack.id === track.id)) {
        return;
-      }
-    this.state.playlist.push(track);   //does this add track to playlist???
+     } else {
+       let tracks = this.state.playlistTracks;
+       tracks.push(track);
+       this.setState({playlistTracks: tracks});
+    }
   }
 
   removeTrack(track){
-    let myVar = this.state.playlistTracks.filter(savedTrack =>
-      savedTrack.id === track.id
+    let trackVar = this.state.playlistTracks.filter(savedTrack =>
+      savedTrack.id !== track.id
     );
 
-    this.setState({playlistTracks : myVar})
+    this.setState({playlistTracks : trackVar})
   }
 
   updatePlaylistName(name)  {
     this.setState({playlistName : name})
   }
 
-  savePlaylist(){
-    const trackURIs = this.state.playlistTracks.map();
-      ///CHECK THIS  step 63
-    }
+  savePlaylist() {
+    const trackURIs = this.state.playlistTracks.map(track => track.uri);
+    Spotify.savePlaylist(this.state.playlistName,trackURIs).then(()=> {
+      this.setState({playlistTracks:[]});
+    }).then (()=> {this.updatePlaylistName('New Favorite Metal');
+  })
+  }
 
   search(term){
-    console.log('HIYA   App Search');
-    console.log(term);
     Spotify.getAccessToken();
     Spotify.search(term).then(tracks => {
-      this.setState({tracks: tracks});
+      this.setState({searchResults: tracks});
     });
   }
 
@@ -72,10 +66,11 @@ class App extends Component {
           <SearchBar onSearch={this.search}/>
           <div className="App-playlist">
             <SearchResults onAdd={this.addTrack} searchResults={this.state.searchResults}/>
-            <Playlist playlistName={this.state.playlistName}
+            <Playlist
+            playlistName={this.state.playlistName}
             playlistTracks={this.state.playlistTracks}
-            onNameChange={this.updatePlaylistName}
             onRemove={this.removeTrack}
+            onNameChange={this.updatePlaylistName}
             onSave={this.savePlaylist}/>
           </div>
         </div>
