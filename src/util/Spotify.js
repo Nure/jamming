@@ -1,5 +1,5 @@
 const clientID = 'e1b8ce82ad16470a9fc1d30f2c3be6ba';
-const redirectURI = 'localhost:3000/';
+const redirectURI = 'http://localhost:3000';
 
 const url = window.location.href;
 let userAccessToken = url.match(/access_token=([^&]*)/);
@@ -14,6 +14,7 @@ const Spotify = {
         } else if(!userAccessToken && expiresIn === '') {
             window.setTimeout(() => userAccessToken = null, expiresIn = 3000);
             window.history.pushState('Access Token', null, '/')
+            console.log('obtained a new token' + userAccessToken);
             return userAccessToken;
             // console.log('obtained a new token' + userAccessToken);
         } else {
