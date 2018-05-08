@@ -3,7 +3,7 @@ import './App.css';
 import SearchBar from '../SearchBar/SearchBar'
 import SearchResults from '../SearchResults/SearchResults'
 import Playlist from '../Playlist/Playlist'
-import Spotify from '../util/Spotify';
+import Spotify from '../../util/Spotify';
 
 class App extends Component {
   constructor(props) {
@@ -11,7 +11,7 @@ class App extends Component {
 
       this.state = {
            searchResults : [],
-           playlistName : "Favorite Metal",
+           playlistName : "Enter Playlist Name",
            playlistTracks : []
        };
        this.addTrack = this.addTrack.bind(this);
@@ -27,15 +27,12 @@ class App extends Component {
      } else {
        let tracks = this.state.playlistTracks;
        tracks.push(track);
-       this.setState({playlistTracks: tracks});
+       this.setState({ playlistTracks: tracks });
     }
   }
 
   removeTrack(track){
-    let trackVar = this.state.playlistTracks.filter(savedTrack =>
-      savedTrack.id !== track.id
-    );
-
+    let trackVar = this.state.playlistTracks.filter(savedTrack => savedTrack.id !== track.id);
     this.setState({playlistTracks : trackVar})
   }
 
@@ -51,14 +48,14 @@ class App extends Component {
   })
   }
 
-  search(term){
-    Spotify.getAccessToken();
-    Spotify.search(term).then(tracks => {
+  search(searchTerm){
+    Spotify.search(searchTerm).then(tracks => {
       this.setState({searchResults: tracks});
     });
   }
 
   render() {
+    Spotify.getAccessToken();
     return (
       <div>
         <h1>Ja<span className="highlight">mmm</span>ing</h1>

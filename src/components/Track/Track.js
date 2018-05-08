@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './Track.css'
 
+
 class Track extends Component {
   constructor(props){
     super(props);
@@ -13,16 +14,17 @@ class Track extends Component {
 
   renderAction() {
     if(this.props.isRemoval){
-      return <a className="Track-action" onClick={this.removeTrack}>-</a>;
+      return (<a className="Track-action" onClick={this.removeTrack}> - </a>);
     } else {
-      return <a className="Track-action" onClick={this.addTrack}>+</a>;
+      return (<a className="Track-action" onClick={this.addTrack}> + </a>);
     }
   }
+
   renderPreview() {
     if (this.props.track.previewUrl) {
       return (
           <div className="Track-preview">
-          <a onClick={this.togglePlay}><i className="material-icons">{this.state.playing? "pause_circle_filled" : "play_circle_filled"}</i></a>
+          <a onClick={this.togglePlay}><i className="material-icons">{this.state.playing? <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 35 35"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg> : <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 35 35"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>}</i></a>
           <audio id={"Audio" + this.props.track.uri} ref={(audio) => { this.audio = audio }} src={this.props.track.previewUrl} preload="none" />
           </div>
         );
@@ -52,7 +54,7 @@ class Track extends Component {
         {this.renderPreview()}
         <div className="Track-information">
           <h3>{this.props.track.name}</h3>
-          <p>{this.props.track.artist} | {this.props.track.album}</p>
+          <p>{this.props.artist} | {this.props.album}</p>
         </div>
         {this.renderAction()}
       </div>
