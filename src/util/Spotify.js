@@ -1,5 +1,5 @@
 let accessToken;
-const clientID = 'e1b8ce82ad16470a9fc1d30f2c3be6ba';
+const clientID = ''; clientId
 const redirectURI = 'http://nure.surge.sh';
 
 
